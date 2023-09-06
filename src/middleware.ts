@@ -26,6 +26,14 @@ export default async function middleware(req: NextRequest) {
 
   const data = await getHostnameDataOrDefault(currentHost)
 
+  const requestHeaders = new Headers(req.headers)
+  requestHeaders.set('x-middleware-host', data?.subdomain ?? "")
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders
+    }
+  })
+  
   // Prevent security issues – users should not be able to canonically access
   // the pages/sites folder and its respective contents.
   if (url.pathname.startsWith(`/_sites`)) {
@@ -35,5 +43,5 @@ export default async function middleware(req: NextRequest) {
     url.pathname = `/_sites/${data?.subdomain}${url.pathname}`
   }
 
-  return NextResponse.rewrite(url)
+  return NextResponse.rewrite(url, response)
 }

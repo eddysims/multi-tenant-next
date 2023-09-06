@@ -11,13 +11,10 @@ import Document, {
 class MyDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext
-  ): Promise<DocumentInitialProps & { hostName?: string, headers: any }> {
+  ): Promise<DocumentInitialProps & { host?: string | string[] }> {
     const originalRenderPage = ctx.renderPage
 
-    const host = ctx.req?.headers?.host
-    const headers = ctx.req?.headers
-    console.log(ctx.req?.headers)
-    const hostName = await getCurrentHostName(host)
+    const host = ctx.req?.headers?.['x-middleware-host'] ?? ''
  
     // Run the React rendering logic synchronously
     ctx.renderPage = () =>
@@ -31,13 +28,13 @@ class MyDocument extends Document {
     // Run the parent `getInitialProps`, it now includes the custom `renderPage`
     const initialProps = await Document.getInitialProps(ctx)
  
-    return {...initialProps, hostName, headers } 
+    return {...initialProps, host } 
   }
  
   render() {
     return (
       // @ts-expect-error
-      <Html lang="en" data-host={`${this.props?.hostName}`}>
+      <Html lang="en" data-host={`${this.props?.host}`}>
         <Head />
         <body>
           {/* @ts-expect-error */}
