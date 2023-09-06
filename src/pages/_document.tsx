@@ -37,8 +37,6 @@ class MyDocument extends Document {
       <Html lang="en" data-host={`${this.props?.host}`}>
         <Head />
         <body>
-          {/* @ts-expect-error */}
-          {JSON.stringify(this.props.headers)}
           <Main />
           <NextScript />
         </body>
