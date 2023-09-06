@@ -15,6 +15,7 @@ class MyDocument extends Document {
     const originalRenderPage = ctx.renderPage
 
     const host = ctx.req?.headers?.host
+    console.log(ctx.req?.headers)
     const hostName = await getCurrentHostName(host)
  
     // Run the React rendering logic synchronously
