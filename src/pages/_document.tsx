@@ -11,10 +11,11 @@ import Document, {
 class MyDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext
-  ): Promise<DocumentInitialProps & { hostName?: string }> {
+  ): Promise<DocumentInitialProps & { hostName?: string, headers: any }> {
     const originalRenderPage = ctx.renderPage
 
     const host = ctx.req?.headers?.host
+    const headers = ctx.req?.headers
     console.log(ctx.req?.headers)
     const hostName = await getCurrentHostName(host)
  
@@ -30,7 +31,7 @@ class MyDocument extends Document {
     // Run the parent `getInitialProps`, it now includes the custom `renderPage`
     const initialProps = await Document.getInitialProps(ctx)
  
-    return {...initialProps, hostName } 
+    return {...initialProps, hostName, headers } 
   }
  
   render() {
@@ -39,6 +40,8 @@ class MyDocument extends Document {
       <Html lang="en" data-host={`${this.props?.hostName}`}>
         <Head />
         <body>
+          {/* @ts-expect-error */}
+          {JSON.stringify(this.props.headers)}
           <Main />
           <NextScript />
         </body>
