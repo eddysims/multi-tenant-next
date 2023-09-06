@@ -26,7 +26,7 @@ export default function Index(props: Props) {
   return (
     <div className="flex items-center justify-center min-h-screen bg-primary">
       <h1 className="text-xl">
-        {props.name}!!!
+        ~{props.name}~
       </h1>
     </div>
   )
