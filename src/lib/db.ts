@@ -1,31 +1,31 @@
 // Dummy data to be replaced with your database
-const hostnamesDB = [
-  {
-    name: 'Example Site 1',
-    description: 'Subdomain + custom domain',
-    subdomain: 'test1',
-    customDomain: 'custom-domain-1.com',
-    defaultForPreview: true,
-  },
-  {
-    name: 'Example Site 2',
-    description: 'Subdomain only',
-    subdomain: 'test2',
-  },
-  {
-    name: 'Example Site 3',
-    description: 'Subdomain only',
-    subdomain: 'test3',
-  },
-  {
-    name: "test 2 on prod",
-    description: "Foo Foo",
-    subdomain: "test2-multi-tenant-next",
-    customDomain: "test2-multi-tenant-next.vercel.app"
-  }
-]
+const hostnamesDB = () => {
+  return [
+    {
+      name: "Eddy Website",
+      subdomain: "eddy-has-a-domain",
+      customDomain: "eddy-has-a-domain.vercel.app",
+      defaultForPreview: true,
+    },
+    {
+      name: "Owen Website",
+      subdomain: "owen",
+      customDomain: "owen-has-a-domain.vercel.app",
+    },
+    {
+      name: "Ross Website",
+      subdomain: "ross",
+      customDomain: "ross-has-a-domain.vercel.app",
+    },
+    {
+      name: "Bryan Website",
+      subdomain: "bryan",
+      customDomain: "bryan-has-a-domain.vercel.app",
+    },
+  ];
+};
 
-const DEFAULT_HOST = hostnamesDB.find((h) => h.defaultForPreview)
+const DEFAULT_HOST = hostnamesDB().find((h) => h.defaultForPreview);
 
 /**
  * Returns the data of the hostname based on its subdomain or custom domain
@@ -36,19 +36,19 @@ const DEFAULT_HOST = hostnamesDB.find((h) => h.defaultForPreview)
 export async function getHostnameDataOrDefault(
   subdomainOrCustomDomain?: string
 ) {
-  if (!subdomainOrCustomDomain) return DEFAULT_HOST
+  if (!subdomainOrCustomDomain) return DEFAULT_HOST;
 
   // check if site is a custom domain or a subdomain
-  const customDomain = subdomainOrCustomDomain.includes('.')
+  const customDomain = subdomainOrCustomDomain.includes(".");
 
   // fetch data from mock database using the site value as the key
   return (
-    hostnamesDB.find((item) =>
+    hostnamesDB().find((item) =>
       customDomain
         ? item.customDomain === subdomainOrCustomDomain
         : item.subdomain === subdomainOrCustomDomain
     ) ?? DEFAULT_HOST
-  )
+  );
 }
 
 /**
@@ -57,7 +57,7 @@ export async function getHostnameDataOrDefault(
  * This method is used by pages under middleware.ts
  */
 export async function getHostnameDataBySubdomain(subdomain: string) {
-  return hostnamesDB.find((item) => item.subdomain === subdomain)
+  return hostnamesDB().find((item) => item.subdomain === subdomain);
 }
 
 /**
@@ -66,15 +66,12 @@ export async function getHostnameDataBySubdomain(subdomain: string) {
  */
 export async function getSubdomainPaths() {
   // get all sites that have subdomains set up
-  const subdomains = hostnamesDB.filter((item) => item.subdomain)
+  const subdomains = hostnamesDB().filter((item) => item.subdomain);
 
   // build paths for each of the sites in the previous two lists
-  console.log({subdomains})
-  return subdomains.map((item) => {
-    console.log(item.subdomain)
-    const { subdomain} = item
-    return { params: { site: `${subdomain}` } }
-  })
+  return subdomains.map(({ subdomain }) => {
+    return { params: { site: subdomain } };
+  });
 }
 
-export default hostnamesDB
+export default hostnamesDB;
