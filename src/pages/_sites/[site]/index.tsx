@@ -43,6 +43,7 @@ export async function getStaticPaths() {
 }
 
 // Getting data to display on each custom subdomain
+// @ts-expect-error
 export async function getStaticProps({ params: { site } }) {
   const sites = await getHostnameDataBySubdomain(site)
 
