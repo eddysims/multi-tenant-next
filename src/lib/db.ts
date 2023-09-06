@@ -17,6 +17,11 @@ const hostnamesDB = [
     description: 'Subdomain only',
     subdomain: 'test3',
   },
+  {
+    name: "test 2 on prod",
+    description: "Foo Foo",
+    subdomain: "test2-multi-tenant-next"
+  }
 ]
 
 const DEFAULT_HOST = hostnamesDB.find((h) => h.defaultForPreview)
