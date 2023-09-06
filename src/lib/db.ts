@@ -20,7 +20,8 @@ const hostnamesDB = [
   {
     name: "test 2 on prod",
     description: "Foo Foo",
-    subdomain: "test2-multi-tenant-next"
+    subdomain: "test2-multi-tenant-next",
+    customDomain: "test2-multi-tenant-next.vercel.app"
   }
 ]
 
