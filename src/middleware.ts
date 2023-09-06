@@ -19,7 +19,7 @@ export default async function middleware(req: NextRequest) {
   const currentHost =
     process.env.NODE_ENV === "production" && process.env.VERCEL === "1"
       ? hostname
-        ?.replace(`.buildwithnext.com`, "")
+        ?.replace(`.vercel.app`, "")
       : hostname?.replace(`.localhost:${process.env.PORT}`, "");
 
 
