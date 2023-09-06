@@ -1,0 +1,13 @@
+import { ThemeType } from "./themeType";
+
+const theme: ThemeType = {
+  name: "base",
+  selectors: ['[data-host="ross"]'],
+  theme: {
+    colors: {
+      primary: '#F4D06F',
+    },
+  },
+};
+
+module.exports = theme;

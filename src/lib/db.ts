@@ -3,7 +3,7 @@ const hostnamesDB = () => {
   return [
     {
       name: "Eddy Website",
-      subdomain: "eddy-has-a-domain",
+      subdomain: "eddy",
       customDomain: "eddy-has-a-domain.vercel.app",
       defaultForPreview: true,
     },
@@ -72,6 +72,18 @@ export async function getSubdomainPaths() {
   return subdomains.map(({ subdomain }) => {
     return { params: { site: subdomain } };
   });
+}
+
+export async function getCurrentHostName(hostName?: string) {
+  if (!hostName) {
+    return "nothing-to-see-here";
+  }
+  if (process.env.NODE_ENV === "production") {
+    return hostnamesDB().find((h) => h.customDomain === hostName)?.subdomain;
+  }
+
+  return hostnamesDB().find((h) => h.subdomain === hostName.split(".")[0])
+    ?.subdomain ?? DEFAULT_HOST?.subdomain;
 }
 
 export default hostnamesDB;
